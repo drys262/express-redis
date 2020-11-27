@@ -1,0 +1,29 @@
+{
+  "name": "express-redis",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^5.0.0",
+    "body-parser": "^1.19.0",
+    "chance": "^1.1.7",
+    "connect-redis": "^5.0.0",
+    "cookie-parser": "^1.4.5",
+    "ejs": "^3.1.5",
+    "express": "^4.17.1",
+    "express-session": "^1.17.1",
+    "morgan": "^1.10.0",
+    "pg": "^8.5.1",
+    "ramda": "^0.27.1",
+    "redis": "^3.0.2",
+    "sequelize": "^6.3.5",
+    "uuid": "^8.3.1"
+  }
+}

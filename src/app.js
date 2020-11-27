@@ -1,4 +1,5 @@
 const express = require('express');
+const path = require('path');
 const bodyParser = require('body-parser');
 const session = require('express-session');
 const redis = require('redis');
@@ -42,6 +43,7 @@ app.use(
 );
 
 app.set('view engine', 'ejs');
+app.use('/public', express.static('public'));
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());

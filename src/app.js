@@ -1,13 +1,12 @@
 const express = require('express');
-const path = require('path');
 const bodyParser = require('body-parser');
 const session = require('express-session');
 const redis = require('redis');
 const morgan = require('morgan');
 const connectRedis = require('connect-redis');
-const comparePassword = require('./library/compare-password');
-const models = require('../models/index');
 const checkDbConnection = require('./library/check-db-connection');
+const authRouter = require('./routes/auth');
+const homeRouter = require('./routes/home');
 
 const PORT = 8080;
 const app = express();
@@ -49,45 +48,8 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(morgan('dev'));
 
-// middleware function to check for logged-in users
-const sessionChecker = (req, res, next) => {
-  if (req.session.name) {
-    res.redirect('/');
-  } else {
-    next();
-  }
-};
-
-app.get('/', (req, res) => {
-  if (req.session.name) {
-    return res.render('pages/index', { user: { name: req.session.name } });
-  }
-  res.render('pages/index', { user: {} });
-});
-
-app.get('/auth/signin', sessionChecker, (_req, res) => {
-  res.render('pages/signin', { wrongCredentials: false, user: {} });
-});
-
-app.post('/auth/signin', async (req, res) => {
-  const { email, password } = req.body;
-  const user = await models.user.findOne({ where: { email } });
-  if (!user || !comparePassword(password, user.password)) {
-    return res.render('pages/signin', { wrongCredentials: true, user: {} });
-  }
-
-  req.session.name = user.name;
-  return res.redirect(301, '/');
-});
-
-app.get('/auth/logout', (req, res) => {
-  req.session.destroy((err) => {
-    if (err) {
-      return console.log(err);
-    }
-    res.redirect('/');
-  });
-});
+app.use('/', homeRouter);
+app.use('/auth', authRouter);
 
 checkDbConnection();
 

@@ -6,7 +6,9 @@ const morgan = require('morgan');
 const connectRedis = require('connect-redis');
 const comparePassword = require('./library/compare-password');
 const models = require('../models/index');
+const checkDbConnection = require('./library/check-db-connection');
 
+const PORT = 8080;
 const app = express();
 const RedisStore = connectRedis(session);
 
@@ -85,4 +87,8 @@ app.get('/auth/logout', (req, res) => {
   });
 });
 
-module.exports = app;
+checkDbConnection();
+
+app.listen(PORT, () => {
+  console.log(`Server started on port http://0.0.0.0:${PORT}.`);
+});

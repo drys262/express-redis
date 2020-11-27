@@ -1,6 +1,4 @@
-const app = require('./src/app');
-const { sequelize } = require('./models');
-const PORT = 8080;
+const { sequelize } = require('../../models');
 
 async function checkDBConnection() {
   console.log(`Checking database connection...`);
@@ -14,11 +12,4 @@ async function checkDBConnection() {
   }
 }
 
-async function init() {
-  await checkDBConnection();
-  app.listen(PORT, () => {
-    console.log(`Server started on port http://0.0.0.0:${PORT}.`);
-  });
-}
-
-init();
+module.exports = checkDBConnection;
